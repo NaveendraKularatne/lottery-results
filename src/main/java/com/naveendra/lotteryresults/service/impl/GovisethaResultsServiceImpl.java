@@ -2,8 +2,11 @@ package com.naveendra.lotteryresults.service.impl;
 
 import com.naveendra.lotteryresults.entity.GovisethaResults;
 import com.naveendra.lotteryresults.repository.GovisethaResultsRepository;
+import com.naveendra.lotteryresults.repository.StoreResultsRepository;
 import com.naveendra.lotteryresults.service.GovisethaResultsService;
+import com.naveendra.lotteryresults.service.StoreResultsService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,12 +14,13 @@ import java.util.List;
 @Slf4j
 @Service
 public class GovisethaResultsServiceImpl implements GovisethaResultsService {
-
     private GovisethaResultsRepository govisethaResultsRepository;
+    @Autowired
+    private StoreResultsService storeResultsService;
 
     public GovisethaResultsServiceImpl(GovisethaResultsRepository govisethaResultsRepository) {
-    this.govisethaResultsRepository = govisethaResultsRepository;
-}
+        this.govisethaResultsRepository = govisethaResultsRepository;
+    }
 
     @Override
     public void printLotteryResults() {
@@ -47,7 +51,6 @@ public class GovisethaResultsServiceImpl implements GovisethaResultsService {
                 System.out.println("</tr>");
             }
         } else {
-
             System.out.println("<tr>");
             System.out.println("<td> - </td>");
             System.out.println("<td> - </td>");
@@ -58,6 +61,8 @@ public class GovisethaResultsServiceImpl implements GovisethaResultsService {
         }
         System.out.println("</tbody>");
         System.out.println("</table>");
+
+        this.storeResultsService.saveLotteryResults(govisethaResultsList);
     }
 
     @Override
